@@ -98,7 +98,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      attrs: [{
+      etapasProjeto: [],
+      etapasParaCalendario: []
+    };
+  },
+  methods: {
+    addBlankEtapaProjeto: function addBlankEtapaProjeto() {
+      this.etapasProjeto.push({
+        id: this.generateRandomId(),
+        nome: '',
+        dataInicio: '',
+        dataFim: ''
+      });
+    },
+    removerEtapa: function removerEtapa(idEtapa) {
+      this.etapasProjeto = this.etapasProjeto.filter(function (etapa) {
+        return etapa.id != idEtapa;
+      });
+    },
+    gerarCalendario: function gerarCalendario() {
+      //TODO: validar
+      this.etapasParaCalendario = this.etapasProjeto;
+    },
+    generateRandomId: function generateRandomId() {
+      var length = 8;
+      var randomString = '';
+      var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      var counter = 0;
+      while (counter < length) {
+        randomString += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+      }
+      return "e".concat(randomString);
+    }
+  },
+  computed: {
+    vCalendarAttrs: function vCalendarAttrs() {
+      return [{
         highlight: {
           start: {
             fillMode: 'light',
@@ -114,11 +151,17 @@ __webpack_require__.r(__webpack_exports__);
           }
         },
         dates: {
-          start: new Date(2019, 0, 14),
-          end: new Date(2019, 1, 18)
+          start: new Date(2023, 0, 14),
+          end: new Date(2023, 1, 18)
         }
-      }]
-    };
+      }];
+    },
+    vCalendarFromPage: function vCalendarFromPage() {
+      return {
+        month: 1,
+        year: new Date().getFullYear()
+      };
+    }
   }
 });
 
@@ -140,7 +183,74 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "d-block"
-  }, [_c("h1", [_vm._v("Gerador de calendário de projeto")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("div", {
+  }, [_c("h1", [_vm._v("Gerador de calendário de projeto")]), _vm._v(" "), _c("div", {
+    staticClass: "d-block lista-etapas"
+  }, [_c("p", [_vm._v("Defina as etapas do projeto:")]), _vm._v(" "), _vm._l(_vm.etapasProjeto, function (etapa) {
+    return _c("div", {
+      key: etapa.id,
+      staticClass: "d-block etapa-projeto"
+    }, [_c("label", {
+      attrs: {
+        "for": ""
+      }
+    }, [_vm._v("\n\t\t\t\tNome da etapa:\n\t\t\t")]), _vm._v(" "), _c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: etapa.nome,
+        expression: "etapa.nome"
+      }],
+      attrs: {
+        type: "text"
+      },
+      domProps: {
+        value: etapa.nome
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(etapa, "nome", $event.target.value);
+        }
+      }
+    }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
+      attrs: {
+        "for": ""
+      }
+    }, [_vm._v("\n\t\t\t\tData inicial:\n\t\t\t")]), _vm._v(" "), _c("input", {
+      attrs: {
+        type: "date"
+      }
+    }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
+      attrs: {
+        "for": ""
+      }
+    }, [_vm._v("\n\t\t\t\tData final:\n\t\t\t")]), _vm._v(" "), _c("input", {
+      attrs: {
+        type: "date"
+      }
+    }), _vm._v(" "), _c("button", {
+      staticClass: "botao-remover-etapa",
+      on: {
+        click: function click($event) {
+          return _vm.removerEtapa(etapa.id);
+        }
+      }
+    }, [_vm._v("\n\t\t\t\tRemover\n\t\t\t")])]);
+  }), _vm._v(" "), _c("div", {
+    staticClass: "d-block mt-1 mb-2"
+  }, [_c("button", {
+    staticClass: "botao-adicionar-etapa",
+    on: {
+      click: _vm.addBlankEtapaProjeto
+    }
+  }, [_vm._v("\n\t\t\t\tAdicionar etapa\n\t\t\t")])]), _vm._v(" "), _c("div", {
+    staticClass: "d-block mt-2"
+  }, [_c("button", {
+    staticClass: "botao-gerar-calendario",
+    on: {
+      click: _vm.gerarCalendario
+    }
+  }, [_vm._v("\n\t\t\t\tGerar calendário\n\t\t\t")])])], 2), _vm._v(" "), _c("div", {
     staticClass: "d-block",
     staticStyle: {
       width: "800px",
@@ -148,58 +258,15 @@ var render = function render() {
     }
   }, [_c("v-calendar", {
     attrs: {
-      "from-page": {
-        month: 1,
-        year: 2019
-      },
-      attributes: _vm.attrs,
+      "from-page": _vm.vCalendarFromPage,
+      attributes: _vm.vCalendarAttrs,
       "is-expanded": "",
       rows: 4,
       columns: 3
     }
   })], 1)]);
 };
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "d-block lista-etapas"
-  }, [_c("p", [_vm._v("Defina as etapas do projeto:")]), _vm._v(" "), _c("div", {
-    staticClass: "d-block etapa-projeto"
-  }, [_c("label", {
-    attrs: {
-      "for": ""
-    }
-  }, [_vm._v("\n\t\t\t\tNome da etapa:\n\t\t\t")]), _vm._v(" "), _c("input", {
-    attrs: {
-      type: "text"
-    }
-  }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
-    attrs: {
-      "for": ""
-    }
-  }, [_vm._v("\n\t\t\t\tData inicial:\n\t\t\t")]), _vm._v(" "), _c("input", {
-    attrs: {
-      type: "date"
-    }
-  }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
-    attrs: {
-      "for": ""
-    }
-  }, [_vm._v("\n\t\t\t\tData final:\n\t\t\t")]), _vm._v(" "), _c("input", {
-    attrs: {
-      type: "date"
-    }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "d-block mt-1 mb-2"
-  }, [_c("button", {
-    staticClass: "botao-adicionar-etapa"
-  }, [_vm._v("Adicionar etapa")])]), _vm._v(" "), _c("div", {
-    staticClass: "d-block mt-2"
-  }, [_c("button", {
-    staticClass: "botao-gerar-calendario"
-  }, [_vm._v("Gerar calendário")])])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -216,7 +283,7 @@ render._withStripped = true;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.vc-pane {\r\n\tborder: 1px solid black;\n}\n.d-block{\r\n\tdisplay:block;\n}\n.etapa-projeto{\r\n\tborder: 1px solid black;\r\n\tpadding: 6px;\n}\n.botao-adicionar-etapa{\r\n\tbackground-color: #77bb77;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid green;\n}\n.botao-gerar-calendario{\r\n\tbackground-color: #7777bb;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid blue;\n}\n.my-2{\r\n\tmargin-top: 15px;\r\n\tmargin-bottom: 15px;\n}\n.mt-1{\r\n\tmargin-top: 5px;\n}\n.mt-2{\r\n\tmargin-top: 15px;\n}\n.mb-2{\r\n\tmargin-bottom: 15px;\n}\r\n", ""]);
+exports.push([module.i, "\n.vc-pane {\r\n\tborder: 1px solid black;\n}\n.d-block{\r\n\tdisplay:block;\n}\n.etapa-projeto{\r\n\tborder: 1px solid black;\r\n\tpadding: 6px;\n}\n.botao-adicionar-etapa{\r\n\tbackground-color: #77bb77;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid green;\n}\n.botao-gerar-calendario{\r\n\tbackground-color: #7777bb;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid blue;\n}\n.botao-remover-etapa{\r\n\tbackground-color: #bb7777;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid red;\n}\n.my-2{\r\n\tmargin-top: 15px;\r\n\tmargin-bottom: 15px;\n}\n.mt-1{\r\n\tmargin-top: 5px;\n}\n.mt-2{\r\n\tmargin-top: 15px;\n}\n.mb-2{\r\n\tmargin-bottom: 15px;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 

@@ -4,11 +4,16 @@
 		<div class="d-block lista-etapas">
 			<p>Defina as etapas do projeto:</p>
 
-			<div class="d-block etapa-projeto">
+			<div v-for="etapa in etapasProjeto"
+				:key="etapa.id"
+				class="d-block etapa-projeto"
+			>
 				<label for="">
 					Nome da etapa:
 				</label>
-				<input type="text" />
+				<input v-model="etapa.nome"
+					type="text" 
+				/>
 				|
 				<label for="">
 					Data inicial:
@@ -19,20 +24,34 @@
 					Data final:
 				</label>
 				<input type="date" />
+
+				<button @click="removerEtapa(etapa.id)"
+					class="botao-remover-etapa"
+				>
+					Remover
+				</button>
 			</div>
 
 			<div class="d-block mt-1 mb-2">
-				<button class="botao-adicionar-etapa">Adicionar etapa</button>
+				<button @click="addBlankEtapaProjeto"
+					class="botao-adicionar-etapa"
+				>
+					Adicionar etapa
+				</button>
 			</div>
 			<div class="d-block mt-2">
-				<button class="botao-gerar-calendario">Gerar calendário</button>
+				<button @click="gerarCalendario"
+					class="botao-gerar-calendario"
+				>
+					Gerar calendário
+				</button>
 			</div>
 		</div>
 
 		<div class="d-block" style="width: 800px; margin-top: 30px">
 			<v-calendar 
-				:from-page="{ month: 1, year: 2019 }" 
-				:attributes="attrs" 
+				:from-page="vCalendarFromPage" 
+				:attributes="vCalendarAttrs" 
 				is-expanded 
 				:rows="4" 
 				:columns="3" 
@@ -45,16 +64,57 @@
 export default {
 	data() {
 		return {
-			attrs: [
+			etapasProjeto: [],
+			etapasParaCalendario: [],
+		}
+	},
+	methods: {
+		addBlankEtapaProjeto(){
+			this.etapasProjeto.push({
+				id: this.generateRandomId(),
+				nome: '',
+				dataInicio: '',
+				dataFim: '',
+			});
+		},
+		removerEtapa(idEtapa){
+			this.etapasProjeto = this.etapasProjeto.filter(etapa => etapa.id != idEtapa);
+		},
+		gerarCalendario(){
+			//TODO: validar
+			this.etapasParaCalendario = this.etapasProjeto;
+		},
+		generateRandomId(){
+			let length = 8;
+			let randomString = '';
+			const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+			const charactersLength = characters.length;
+			let counter = 0;
+			while (counter < length) {
+				randomString += characters.charAt(Math.floor(Math.random() * charactersLength));
+				counter += 1;
+			}
+			return `e${randomString}`;
+		},
+	},
+	computed: {
+		vCalendarAttrs(){
+			return [
 				{
 					highlight: {
 						start: { fillMode: 'light', color: 'red' },
 						base: { fillMode: 'light', color: 'red' },
 						end: { fillMode: 'light', color: 'red' },
 					},
-					dates: { start: new Date(2019, 0, 14), end: new Date(2019, 1, 18) },
+					dates: { start: new Date(2023, 0, 14), end: new Date(2023, 1, 18) },
 				},
-			],
+			];
+		},
+		vCalendarFromPage(){
+			return { 
+				month: 1, 
+				year: new Date().getFullYear() 
+			};
 		}
 	},
 }
@@ -82,6 +142,12 @@ export default {
 	color: white;
 	padding: 6px;
 	border: 1px solid blue;
+}
+.botao-remover-etapa{
+	background-color: #bb7777;
+	color: white;
+	padding: 6px;
+	border: 1px solid red;
 }
 .my-2{
 	margin-top: 15px;
