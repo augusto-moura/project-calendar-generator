@@ -18,12 +18,16 @@
 				<label for="">
 					Data inicial:
 				</label>
-				<input type="date" />
+				<input v-model="etapa.dataInicio" 
+					type="date" 
+				/>
 				|
 				<label for="">
 					Data final:
 				</label>
-				<input type="date" />
+				<input v-model="etapa.dataFim"
+					type="date" 
+				/>
 
 				<button @click="removerEtapa(etapa.id)"
 					class="botao-remover-etapa"
@@ -82,7 +86,7 @@ export default {
 		},
 		gerarCalendario(){
 			//TODO: validar
-			this.etapasParaCalendario = this.etapasProjeto;
+			this.etapasParaCalendario = [...this.etapasProjeto];
 		},
 		generateRandomId(){
 			let length = 8;
@@ -96,19 +100,27 @@ export default {
 			}
 			return `e${randomString}`;
 		},
+		convertMySqlDateToDateObject(mySqlDate){
+			let date = mySqlDate.replace( /[-]/g, '/' );
+			date = Date.parse( date );
+			return new Date( date );
+		},
 	},
 	computed: {
 		vCalendarAttrs(){
-			return [
-				{
+			return this.etapasParaCalendario.map(etapa => {
+				return {
 					highlight: {
 						start: { fillMode: 'light', color: 'red' },
 						base: { fillMode: 'light', color: 'red' },
 						end: { fillMode: 'light', color: 'red' },
 					},
-					dates: { start: new Date(2023, 0, 14), end: new Date(2023, 1, 18) },
-				},
-			];
+					dates: { 
+						start: this.convertMySqlDateToDateObject(etapa.dataInicio), 
+						end: this.convertMySqlDateToDateObject(etapa.dataFim), 
+					},
+				};
+			});
 		},
 		vCalendarFromPage(){
 			return { 

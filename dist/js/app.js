@@ -95,6 +95,12 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -118,7 +124,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     gerarCalendario: function gerarCalendario() {
       //TODO: validar
-      this.etapasParaCalendario = this.etapasProjeto;
+      this.etapasParaCalendario = _toConsumableArray(this.etapasProjeto);
     },
     generateRandomId: function generateRandomId() {
       var length = 8;
@@ -131,30 +137,38 @@ __webpack_require__.r(__webpack_exports__);
         counter += 1;
       }
       return "e".concat(randomString);
+    },
+    convertMySqlDateToDateObject: function convertMySqlDateToDateObject(mySqlDate) {
+      var date = mySqlDate.replace(/[-]/g, '/');
+      date = Date.parse(date);
+      return new Date(date);
     }
   },
   computed: {
     vCalendarAttrs: function vCalendarAttrs() {
-      return [{
-        highlight: {
-          start: {
-            fillMode: 'light',
-            color: 'red'
+      var _this = this;
+      return this.etapasParaCalendario.map(function (etapa) {
+        return {
+          highlight: {
+            start: {
+              fillMode: 'light',
+              color: 'red'
+            },
+            base: {
+              fillMode: 'light',
+              color: 'red'
+            },
+            end: {
+              fillMode: 'light',
+              color: 'red'
+            }
           },
-          base: {
-            fillMode: 'light',
-            color: 'red'
-          },
-          end: {
-            fillMode: 'light',
-            color: 'red'
+          dates: {
+            start: _this.convertMySqlDateToDateObject(etapa.dataInicio),
+            end: _this.convertMySqlDateToDateObject(etapa.dataFim)
           }
-        },
-        dates: {
-          start: new Date(2023, 0, 14),
-          end: new Date(2023, 1, 18)
-        }
-      }];
+        };
+      });
     },
     vCalendarFromPage: function vCalendarFromPage() {
       return {
@@ -217,16 +231,46 @@ var render = function render() {
         "for": ""
       }
     }, [_vm._v("\n\t\t\t\tData inicial:\n\t\t\t")]), _vm._v(" "), _c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: etapa.dataInicio,
+        expression: "etapa.dataInicio"
+      }],
       attrs: {
         type: "date"
+      },
+      domProps: {
+        value: etapa.dataInicio
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(etapa, "dataInicio", $event.target.value);
+        }
       }
     }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
       attrs: {
         "for": ""
       }
     }, [_vm._v("\n\t\t\t\tData final:\n\t\t\t")]), _vm._v(" "), _c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: etapa.dataFim,
+        expression: "etapa.dataFim"
+      }],
       attrs: {
         type: "date"
+      },
+      domProps: {
+        value: etapa.dataFim
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(etapa, "dataFim", $event.target.value);
+        }
       }
     }), _vm._v(" "), _c("button", {
       staticClass: "botao-remover-etapa",
