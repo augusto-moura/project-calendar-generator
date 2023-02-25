@@ -1,0 +1,51 @@
+<div id='app'>
+  <v-calendar 
+    :from-page="{ month: 1, year: 2019 }"
+    :attributes="attrs" 
+    is-expanded
+    :rows="4"
+    :columns="3"
+  />
+</div>
+
+<style>
+.vc-pane{
+  border: 1px solid black;
+}
+</style>
+
+<script>
+new Vue({
+  el: '#app',
+  data() {
+    return {
+      attrs: [
+        {
+          highlight: {
+            start: { fillMode: 'light', color: 'red' },
+            base: { fillMode: 'light', color: 'red' },
+            end: { fillMode: 'light', color: 'red' },
+          },
+          dates: { start: new Date(2019, 0, 14), end: new Date(2019, 1, 18) },
+        },
+      ],
+    }
+  },
+})
+</script>
+
+/*
+Fonte: https://codepen.io/achaphiv/pen/OJXjooB
+https://vcalendar.io/attributes.html#popovers
+
+Gray
+Red
+Orange
+Yellow
+Green
+Teal
+Blue
+Indigo
+Purple
+Pink
+*/
