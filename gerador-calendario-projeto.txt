@@ -38,14 +38,14 @@ new Vue({
 Fonte: https://codepen.io/achaphiv/pen/OJXjooB
 https://vcalendar.io/attributes.html#popovers
 
-Gray
-Red
-Orange
-Yellow
-Green
-Teal
-Blue
-Indigo
-Purple
-Pink
+'gray',
+'red',
+'orange',
+'yellow',
+'green',
+'teal',
+'blue',
+'indigo',
+'purple',
+'pink',
 */

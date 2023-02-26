@@ -79,6 +79,7 @@ export default {
 				nome: '',
 				dataInicio: '',
 				dataFim: '',
+				color: null,
 			});
 		},
 		removerEtapa(idEtapa){
@@ -86,7 +87,35 @@ export default {
 		},
 		gerarCalendario(){
 			//TODO: validar
+			this.realocarCoresAEtapas();
 			this.etapasParaCalendario = [...this.etapasProjeto];
+		},
+		realocarCoresAEtapas(){
+			const colors = [
+				'red',
+				'blue',
+				'yellow',
+				'green',
+				'purple',
+				'orange',
+				'pink',
+				'red',
+				'blue',
+				'yellow',
+				'green',
+				'purple',
+				'orange',
+				'pink',
+			];
+
+			let currentColorIndex = 0;
+
+			this.etapasProjeto = this.etapasProjeto.map(etapa => {
+				return {
+					...etapa, 
+					color: colors[currentColorIndex++],
+				}
+			})
 		},
 		generateRandomId(){
 			let length = 8;
@@ -111,9 +140,9 @@ export default {
 			return this.etapasParaCalendario.map(etapa => {
 				return {
 					highlight: {
-						start: { fillMode: 'light', color: 'red' },
-						base: { fillMode: 'light', color: 'red' },
-						end: { fillMode: 'light', color: 'red' },
+						start: { fillMode: 'light', color: etapa.color },
+						base: { fillMode: 'light', color: etapa.color },
+						end: { fillMode: 'light', color: etapa.color },
 					},
 					dates: { 
 						start: this.convertMySqlDateToDateObject(etapa.dataInicio), 
