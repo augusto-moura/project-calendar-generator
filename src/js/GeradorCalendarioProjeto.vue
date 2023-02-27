@@ -8,25 +8,42 @@
 				:key="etapa.id"
 				class="d-block etapa-projeto"
 			>
-				<label for="">
+				<label :for="`${etapa.id}-nome`">
 					Nome da etapa:
 				</label>
 				<input v-model="etapa.nome"
+					:id="`${etapa.id}-nome`"
+					:class="{
+						'invalid-field': camposComErro[`${etapa.id}.nome`] ?? false,
+						'form-field': true,
+					}"
 					type="text" 
 				/>
 				|
-				<label for="">
+				<label :for="`${etapa.id}-dataInicio`">
 					Data inicial:
 				</label>
-				<input v-model="etapa.dataInicio" 
+				<input v-model="etapa.dataInicio"
+					:id="`${etapa.id}-dataInicio`"
+					:class="{
+						'invalid-field': camposComErro[`${etapa.id}.dataInicio`] ?? false,
+						'form-field': true,
+						'date-field': true,
+					}" 
 					type="date" 
 				/>
 				|
-				<label for="">
+				<label :for="`${etapa.id}-dataFim`">
 					Data final:
 				</label>
 				<input v-model="etapa.dataFim"
+					:id="`${etapa.id}-dataFim`"
 					type="date" 
+					:class="{
+						'invalid-field': camposComErro[`${etapa.id}.dataFim`] ?? false,
+						'form-field': true,
+						'date-field': true,
+					}"
 				/>
 
 				<button @click="removerEtapa(etapa.id)"
@@ -40,7 +57,7 @@
 				<button @click="addBlankEtapaProjeto"
 					class="botao-adicionar-etapa"
 				>
-					Adicionar etapa
+					Adicionar nova etapa
 				</button>
 			</div>
 			<div class="d-block mt-2">
@@ -70,6 +87,7 @@ export default {
 		return {
 			etapasProjeto: [],
 			etapasParaCalendario: [],
+			camposComErro: {},
 		}
 	},
 	methods: {
@@ -86,9 +104,11 @@ export default {
 			this.etapasProjeto = this.etapasProjeto.filter(etapa => etapa.id != idEtapa);
 		},
 		gerarCalendario(){
-			//TODO: validar
+			if( ! this.validate() ){
+				return;
+			}
 			this.realocarCoresAEtapas();
-			this.etapasParaCalendario = [...this.etapasProjeto];
+			this.etapasParaCalendario = JSON.parse(JSON.stringify(this.etapasProjeto));
 		},
 		realocarCoresAEtapas(){
 			const colors = [
@@ -116,6 +136,40 @@ export default {
 					color: colors[currentColorIndex++],
 				}
 			})
+		},
+		validate(){
+			this.camposComErro = {};
+			
+			let etapa;
+			for(etapa of this.etapasProjeto){
+				if(etapa.nome.length < 1){
+					this.camposComErro[`${etapa.id}.nome`] = true;
+				}
+
+				if( this.isdateStringInWrongFormat(etapa.dataInicio)){
+					this.camposComErro[`${etapa.id}.dataInicio`] = true;
+				}
+				
+				if( this.isdateStringInWrongFormat(etapa.dataFim)){
+					this.camposComErro[`${etapa.id}.dataFim`] = true;
+				}
+			}
+
+			return Object.keys(this.camposComErro).length === 0;
+		},
+		isdateStringInWrongFormat(dateString){
+			const dateYmdRegex = /(\d{4})-(\d{2})-(\d{2})/;
+
+			if( dateString === null || ! dateYmdRegex.test(dateString) ){
+				return true;
+			}
+			else{
+				// eslint-disable-next-line no-unused-vars
+				let [dateYmd, year, month, day] = dateString.match(dateYmdRegex);
+				if(parseInt(year) === 0 || parseInt(month) === 0 || parseInt(day) === 0){
+					return true;
+				}
+			}
 		},
 		generateRandomId(){
 			let length = 8;
@@ -162,6 +216,15 @@ export default {
 </script>
 
 <style>
+.form-field{
+	height: 25px;
+}
+.date-field{
+	font-size: 14px;
+}
+.invalid-field{
+	border: 2px solid red;
+}
 .vc-pane {
 	border: 1px solid black;
 }

@@ -1,3 +1,3 @@
 # TODO
-- validar formulário antes de gerar calendário
+- adicionar legenda do lado direito
 - importar de excel?

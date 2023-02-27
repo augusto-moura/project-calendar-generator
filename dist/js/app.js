@@ -96,22 +96,24 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       etapasProjeto: [],
-      etapasParaCalendario: []
+      etapasParaCalendario: [],
+      camposComErro: {}
     };
   },
   methods: {
@@ -130,9 +132,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
     },
     gerarCalendario: function gerarCalendario() {
-      //TODO: validar
+      if (!this.validate()) {
+        return;
+      }
       this.realocarCoresAEtapas();
-      this.etapasParaCalendario = _toConsumableArray(this.etapasProjeto);
+      this.etapasParaCalendario = JSON.parse(JSON.stringify(this.etapasProjeto));
     },
     realocarCoresAEtapas: function realocarCoresAEtapas() {
       var colors = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink', 'red', 'blue', 'yellow', 'green', 'purple', 'orange', 'pink'];
@@ -142,6 +146,48 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           color: colors[currentColorIndex++]
         });
       });
+    },
+    validate: function validate() {
+      this.camposComErro = {};
+      var etapa;
+      var _iterator = _createForOfIteratorHelper(this.etapasProjeto),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          etapa = _step.value;
+          if (etapa.nome.length < 1) {
+            this.camposComErro["".concat(etapa.id, ".nome")] = true;
+          }
+          if (this.isdateStringInWrongFormat(etapa.dataInicio)) {
+            this.camposComErro["".concat(etapa.id, ".dataInicio")] = true;
+          }
+          if (this.isdateStringInWrongFormat(etapa.dataFim)) {
+            this.camposComErro["".concat(etapa.id, ".dataFim")] = true;
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return Object.keys(this.camposComErro).length === 0;
+    },
+    isdateStringInWrongFormat: function isdateStringInWrongFormat(dateString) {
+      var dateYmdRegex = /(\d{4})-(\d{2})-(\d{2})/;
+      if (dateString === null || !dateYmdRegex.test(dateString)) {
+        return true;
+      } else {
+        // eslint-disable-next-line no-unused-vars
+        var _dateString$match = dateString.match(dateYmdRegex),
+          _dateString$match2 = _slicedToArray(_dateString$match, 4),
+          dateYmd = _dateString$match2[0],
+          year = _dateString$match2[1],
+          month = _dateString$match2[2],
+          day = _dateString$match2[3];
+        if (parseInt(year) === 0 || parseInt(month) === 0 || parseInt(day) === 0) {
+          return true;
+        }
+      }
     },
     generateRandomId: function generateRandomId() {
       var length = 8;
@@ -217,12 +263,13 @@ var render = function render() {
   }, [_c("h1", [_vm._v("Gerador de calendário de projeto")]), _vm._v(" "), _c("div", {
     staticClass: "d-block lista-etapas"
   }, [_c("p", [_vm._v("Defina as etapas do projeto:")]), _vm._v(" "), _vm._l(_vm.etapasProjeto, function (etapa) {
+    var _vm$camposComErro, _vm$camposComErro2, _vm$camposComErro3;
     return _c("div", {
       key: etapa.id,
       staticClass: "d-block etapa-projeto"
     }, [_c("label", {
       attrs: {
-        "for": ""
+        "for": "".concat(etapa.id, "-nome")
       }
     }, [_vm._v("\n\t\t\t\tNome da etapa:\n\t\t\t")]), _vm._v(" "), _c("input", {
       directives: [{
@@ -231,7 +278,12 @@ var render = function render() {
         value: etapa.nome,
         expression: "etapa.nome"
       }],
+      "class": {
+        "invalid-field": (_vm$camposComErro = _vm.camposComErro["".concat(etapa.id, ".nome")]) !== null && _vm$camposComErro !== void 0 ? _vm$camposComErro : false,
+        "form-field": true
+      },
       attrs: {
+        id: "".concat(etapa.id, "-nome"),
         type: "text"
       },
       domProps: {
@@ -245,7 +297,7 @@ var render = function render() {
       }
     }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
       attrs: {
-        "for": ""
+        "for": "".concat(etapa.id, "-dataInicio")
       }
     }, [_vm._v("\n\t\t\t\tData inicial:\n\t\t\t")]), _vm._v(" "), _c("input", {
       directives: [{
@@ -254,7 +306,13 @@ var render = function render() {
         value: etapa.dataInicio,
         expression: "etapa.dataInicio"
       }],
+      "class": {
+        "invalid-field": (_vm$camposComErro2 = _vm.camposComErro["".concat(etapa.id, ".dataInicio")]) !== null && _vm$camposComErro2 !== void 0 ? _vm$camposComErro2 : false,
+        "form-field": true,
+        "date-field": true
+      },
       attrs: {
+        id: "".concat(etapa.id, "-dataInicio"),
         type: "date"
       },
       domProps: {
@@ -268,7 +326,7 @@ var render = function render() {
       }
     }), _vm._v("\n\t\t\t|\n\t\t\t"), _c("label", {
       attrs: {
-        "for": ""
+        "for": "".concat(etapa.id, "-dataFim")
       }
     }, [_vm._v("\n\t\t\t\tData final:\n\t\t\t")]), _vm._v(" "), _c("input", {
       directives: [{
@@ -277,7 +335,13 @@ var render = function render() {
         value: etapa.dataFim,
         expression: "etapa.dataFim"
       }],
+      "class": {
+        "invalid-field": (_vm$camposComErro3 = _vm.camposComErro["".concat(etapa.id, ".dataFim")]) !== null && _vm$camposComErro3 !== void 0 ? _vm$camposComErro3 : false,
+        "form-field": true,
+        "date-field": true
+      },
       attrs: {
+        id: "".concat(etapa.id, "-dataFim"),
         type: "date"
       },
       domProps: {
@@ -304,7 +368,7 @@ var render = function render() {
     on: {
       click: _vm.addBlankEtapaProjeto
     }
-  }, [_vm._v("\n\t\t\t\tAdicionar etapa\n\t\t\t")])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n\t\t\t\tAdicionar nova etapa\n\t\t\t")])]), _vm._v(" "), _c("div", {
     staticClass: "d-block mt-2"
   }, [_c("button", {
     staticClass: "botao-gerar-calendario",
@@ -344,7 +408,7 @@ render._withStripped = true;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "\n.vc-pane {\r\n\tborder: 1px solid black;\n}\n.d-block{\r\n\tdisplay:block;\n}\n.etapa-projeto{\r\n\tborder: 1px solid black;\r\n\tpadding: 6px;\n}\n.botao-adicionar-etapa{\r\n\tbackground-color: #77bb77;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid green;\n}\n.botao-gerar-calendario{\r\n\tbackground-color: #7777bb;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid blue;\n}\n.botao-remover-etapa{\r\n\tbackground-color: #bb7777;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid red;\n}\n.my-2{\r\n\tmargin-top: 15px;\r\n\tmargin-bottom: 15px;\n}\n.mt-1{\r\n\tmargin-top: 5px;\n}\n.mt-2{\r\n\tmargin-top: 15px;\n}\n.mb-2{\r\n\tmargin-bottom: 15px;\n}\r\n", ""]);
+exports.push([module.i, "\n.form-field{\r\n\theight: 25px;\n}\n.date-field{\r\n\tfont-size: 14px;\n}\n.invalid-field{\r\n\tborder: 2px solid red;\n}\n.vc-pane {\r\n\tborder: 1px solid black;\n}\n.d-block{\r\n\tdisplay:block;\n}\n.etapa-projeto{\r\n\tborder: 1px solid black;\r\n\tpadding: 6px;\n}\n.botao-adicionar-etapa{\r\n\tbackground-color: #77bb77;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid green;\n}\n.botao-gerar-calendario{\r\n\tbackground-color: #7777bb;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid blue;\n}\n.botao-remover-etapa{\r\n\tbackground-color: #bb7777;\r\n\tcolor: white;\r\n\tpadding: 6px;\r\n\tborder: 1px solid red;\n}\n.my-2{\r\n\tmargin-top: 15px;\r\n\tmargin-bottom: 15px;\n}\n.mt-1{\r\n\tmargin-top: 5px;\n}\n.mt-2{\r\n\tmargin-top: 15px;\n}\n.mb-2{\r\n\tmargin-bottom: 15px;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
