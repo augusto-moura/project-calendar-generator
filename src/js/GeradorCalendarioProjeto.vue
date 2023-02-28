@@ -69,22 +69,39 @@
 			</div>
 		</div>
 
-		<div class="d-block" style="width: 800px; margin-top: 30px">
-			<v-calendar 
-				:from-page="vCalendarFromPage" 
-				:attributes="vCalendarAttrs" 
-				is-expanded 
-				:rows="4" 
-				:columns="3" 
-			/>
+		<div class="calendar-and-legend">
+			<div class="calendar">
+				<v-calendar 
+					:from-page="vCalendarFromPage" 
+					:attributes="vCalendarAttrs" 
+					is-expanded 
+					:rows="4" 
+					:columns="3" 
+				/>
+			</div>
+			<div class="legend">
+				<div v-if="etapasParaCalendario">
+					<h3>Legenda:</h3>
+					<p v-for="etapaCalendario in etapasParaCalendario"
+						:key="etapaCalendario.id"
+					>
+						<strong :style="`color: ${etapaCalendario.legendColor}`">
+							{{ etapaCalendario.nome }}
+						</strong>
+					</p>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </template>
   
 <script>
+import {generateRandomId, convertMySqlDateToDateObject /*, etapasProjetoForTesting */} from './tools.js'
 export default {
 	data() {
 		return {
+			//etapasProjeto: etapasProjetoForTesting,
 			etapasProjeto: [],
 			etapasParaCalendario: [],
 			camposComErro: {},
@@ -98,6 +115,7 @@ export default {
 				dataInicio: '',
 				dataFim: '',
 				color: null,
+				legendColor: null,
 			});
 		},
 		removerEtapa(idEtapa){
@@ -117,23 +135,38 @@ export default {
 				'yellow',
 				'green',
 				'purple',
-				'orange',
 				'pink',
+				'orange',
+				'gray',
 				'red',
 				'blue',
 				'yellow',
 				'green',
 				'purple',
 				'orange',
+				'gray',
 				'pink',
 			];
 
 			let currentColorIndex = 0;
 
 			this.etapasProjeto = this.etapasProjeto.map(etapa => {
+				let currentColor = colors[currentColorIndex++];
+				let currentLegendColor;
+				switch(currentColor){
+					case 'blue': currentLegendColor = '#3182ce'; break;
+					case 'yellow': currentLegendColor = '#d69e2e'; break;
+					case 'green': currentLegendColor = '#38a169'; break;
+					case 'purple': currentLegendColor = '#805ad5'; break;
+					case 'pink': currentLegendColor = '#d53f8c'; break;
+					case 'orange': currentLegendColor = '#dc6a20'; break;
+					case 'gray': currentLegendColor = '#718096'; break;
+					default: currentLegendColor = currentColor;
+				}
 				return {
 					...etapa, 
-					color: colors[currentColorIndex++],
+					color: currentColor,
+					legendColor: currentLegendColor,
 				}
 			})
 		},
@@ -171,32 +204,17 @@ export default {
 				}
 			}
 		},
-		generateRandomId(){
-			let length = 8;
-			let randomString = '';
-			const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-			const charactersLength = characters.length;
-			let counter = 0;
-			while (counter < length) {
-				randomString += characters.charAt(Math.floor(Math.random() * charactersLength));
-				counter += 1;
-			}
-			return `e${randomString}`;
-		},
-		convertMySqlDateToDateObject(mySqlDate){
-			let date = mySqlDate.replace( /[-]/g, '/' );
-			date = Date.parse( date );
-			return new Date( date );
-		},
+		generateRandomId,
+		convertMySqlDateToDateObject,
 	},
 	computed: {
 		vCalendarAttrs(){
 			return this.etapasParaCalendario.map(etapa => {
 				return {
 					highlight: {
-						start: { fillMode: 'light', color: etapa.color },
-						base: { fillMode: 'light', color: etapa.color },
-						end: { fillMode: 'light', color: etapa.color },
+						start: { fillMode: 'solid', color: etapa.color },
+						base: { fillMode: 'solid', color: etapa.color },
+						end: { fillMode: 'solid', color: etapa.color },
 					},
 					dates: { 
 						start: this.convertMySqlDateToDateObject(etapa.dataInicio), 
@@ -253,6 +271,18 @@ export default {
 	padding: 6px;
 	border: 1px solid red;
 }
+.calendar-and-legend{
+	margin-top: 30px;
+	display: flex;
+	justify-content: stretch;
+}
+.calendar{
+	width: 800px; 
+}
+.legend{
+	width: 300px;
+	padding-left: 20px;
+}
 .my-2{
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -265,5 +295,8 @@ export default {
 }
 .mb-2{
 	margin-bottom: 15px;
+}
+*{
+	font-family: Arial, Helvetica, sans-serif;
 }
 </style>
